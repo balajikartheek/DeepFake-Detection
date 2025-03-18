@@ -20,9 +20,6 @@ feature_extractor = keras.applications.InceptionV3(
     input_shape=(img_size, img_size, 3)
 )
 
-# Define the preprocessing function for InceptionV3
-preprocess_input = keras.applications.inception_v3.preprocess_input
-
 # Function to crop center square of a frame
 def crop_center_square(frame):
     y, x = frame.shape[0:2]
@@ -86,20 +83,24 @@ def main():
     if uploaded_video is not None:
         # Check if the uploaded file is an MP4 video
         if uploaded_video.type == "video/mp4":
-            # Process the uploaded video
-            video_bytes = uploaded_video.read()
-            video_path = "temp.mp4"  # Temporary path to save the uploaded video
+            # Save the uploaded video to a temporary file
+            video_path = "temp.mp4"
             with open(video_path, "wb") as f:
-                f.write(video_bytes)
+                f.write(uploaded_video.read())
 
-            # Predict whether the video is fake or real
-            prediction = sequence_prediction(video_path)
+            # Display the uploaded video
+            st.video(video_path)
 
-            # Display the prediction result
-            if prediction >= 0.5:
-                st.write('<span style="color:red">The predicted class of the video is FAKE</span>', unsafe_allow_html=True)
-            else:
-                st.write('<span style="color:blue">The predicted class of the video is REAL</span>', unsafe_allow_html=True)
+            # Predict button
+            if st.button('Predict'):
+                # Predict whether the video is fake or real
+                prediction = sequence_prediction(video_path)
+
+                # Display the prediction result
+                if prediction >= 0.5:
+                    st.write('<span style="color:red">The predicted class of the video is FAKE</span>', unsafe_allow_html=True)
+                else:
+                    st.write('<span style="color:blue">The predicted class of the video is REAL</span>', unsafe_allow_html=True)
         else:
             st.error("Please upload a valid MP4 video file.")
 
