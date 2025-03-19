@@ -33,7 +33,7 @@ def load_video(path, max_frames=0, resize=(img_size, img_size)):
     cap = cv2.VideoCapture(path)
     frames = []
     try:
-        while 1:
+        while True:
             ret, frame = cap.read()
             if not ret:
                 break
@@ -67,7 +67,8 @@ def prepare_single_video(frames):
 def sequence_prediction(path):
     frames = load_video(path)
     frame_features, frame_mask = prepare_single_video(frames)
-    return model_deepfake.predict([frame_features, frame_mask])[0]
+    prediction = model_deepfake.predict([frame_features, frame_mask])
+    return np.squeeze(prediction)  # Ensure prediction is a scalar
 
 # Streamlit application
 def main():
