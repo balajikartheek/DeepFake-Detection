@@ -95,6 +95,7 @@ def main():
             if st.button('Predict'):
                 # Predict whether the video is fake or real
                 prediction = sequence_prediction(video_path)
+                st.write(prediction)
 
                 # Display the prediction result
                 if prediction >= 0.5:
