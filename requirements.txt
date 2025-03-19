@@ -6,4 +6,4 @@ matplotlib
 opencv-python-headless
 streamlit
 imageio
-face_recognition
+face-recognition
