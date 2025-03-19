@@ -5,7 +5,7 @@ import numpy as np
 import keras
 
 # Load the saved DeepFake Detection model
-model_deepfake = load_model('df.h5')
+model_deepfake = load_model('inceptionNet_model.h5')
 
 # Define constants for DeepFake Detection
 img_size = 224
